@@ -1,7 +1,7 @@
 {
-  "name": "pie-api",
+  "name": "movie-view",
   "version": "1.0.0",
-  "description": "pie-server",
+  "description": "movie-server",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.4.2",
+    "request": "^2.88.2",
     "sequelize": "^6.3.5"
   }
 }

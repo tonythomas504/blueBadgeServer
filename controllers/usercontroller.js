@@ -9,17 +9,16 @@ const {UniqueConstraintError} = require('sequelize/lib/errors');
 /* SIGN UP */
 router.post('/register', async(req, res) => {
     // object deconstructing to separate data when sent in the body;
-    let {firstName, lastName, email, password} = req.body;
+    let { username, email, password} = req.body;
 
     try {
         const newUser = await User.create({
-            firstName,
-            lastName,
+            username,
             email,
             password: bcrypt.hashSync(password, 13)
         })
         res.status(201).json({
-            message: "User registered!",
+            message: "User registered, welcome to MovieView!",
             user: newUser
         })
     } catch (error) {
@@ -29,7 +28,8 @@ router.post('/register', async(req, res) => {
             })
         } else {
             res.status(500).json({
-                error: "Failed to register user."
+                
+                error: error
             })
         }
     }
@@ -37,11 +37,11 @@ router.post('/register', async(req, res) => {
 
 // LOGIN
 router.post('/login', async (req, res) => {
-    let {email, password} = req.body;
+    let {username, password} = req.body;
 
     try {
         let loginUser = await User.findOne({
-            where: { email }   // OR where: {email: email}
+            where: { username }   // OR where: {email: email}
         })
         // console.log("loginUser", loginUser)
 
@@ -61,7 +61,7 @@ router.post('/login', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            error: 'Error logging in!'
+            error: error
         })
     }
 })
