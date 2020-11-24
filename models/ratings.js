@@ -12,15 +12,15 @@ const Rating = db.define('rating', {
     },
     movieId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false
     },
     userId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false
     },
     genresId: {
         type: DataTypes.INTEGER,
-        allowNull: true
+        allowNull: false
     }
 })
 
