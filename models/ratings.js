@@ -17,10 +17,6 @@ const Rating = db.define('rating', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false
-    },
-    genresId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     }
 })
 

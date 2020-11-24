@@ -17,10 +17,10 @@ router.get("/myratings", validateSession, (req, res) => {
 
 router.post('/createrating', validateSession, async (req, res) => {
     try {
-        const {rating, movieId, userId, genresId} = req.body;
+        const {rating, movieId, userId} = req.body;
 
         let newRating = await Rating.create({
-            rating, movieId, userId, genresId
+            rating, movieId, userId
         });
         res.status(200).json({
             rating: newRating,
@@ -35,32 +35,13 @@ router.post('/createrating', validateSession, async (req, res) => {
     }
 })
 
-router.get('/:flavor', (req, res) => {
-    // models finds one flavor in db compared to flavor in route
-  Pie.findOne({ where: { flavor: req.params.flavor }})
-    .then(pie => res.status(200).json(pie))
-    .catch(err => res.status(500).json({ error: err}))
-})
-
-// router.put('/:id', (req, res) => {
-//   Pie.update(req.body, { where: { id: req.params.id }})
-//     .then(pie => res.status(200).json(pie))
-//     .catch(err => res.status(500).json(err))
-// })
-
 //* PUT then GET
 router.put("/:id", (req, res) => {
-    // creating a variable (query) and I am assigning the value of the id that gets passed into the route parameter
     const query = req.params.id;
-    // updating the pie which whateer data I send through WHERE the id of the pie matches the value of query
     Pie.update(req.body, { where: { id: query } })
-        // on success, this gives me the number of pies successfully updated (piesUpdated: integer)
       .then((piesUpdated) => {
-          // on success, go back into my Pie model and locate the single pie based on the id that matches the value of query
         Pie.findOne({ where: { id: query } })
-            // on success of retrieved pie, I store the retrieved pie as a parameter called locatedUpdatedPie
         .then((locatedUpdatedPie) => {
-            // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
           res.status(200).json({
             pie: locatedUpdatedPie,
             message: "Pie updated successful",
@@ -68,7 +49,6 @@ router.put("/:id", (req, res) => {
           });
         });
       })
-      // basic error message
       .catch((err) => res.json(err));
 });
 
@@ -77,7 +57,7 @@ router.delete('/:id', (req, res) => {
         where: {id: req.params.id}
     })
     .then(pie => res.status(200).json(pie))
-    .catch(err => res.json({error: err}))   // OR json(err)
+    .catch(err => res.json({error: err}))
 })
 
 module.exports = router;
