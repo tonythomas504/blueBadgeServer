@@ -9,7 +9,11 @@ const {UniqueConstraintError} = require('sequelize/lib/errors');
 /* SIGN UP */
 router.post('/register', async(req, res) => {
     // object deconstructing to separate data when sent in the body;
+
     let { username, email, password} = req.body;
+
+    let {username, email, password} = req.body;
+
 
     try {
         const newUser = await User.create({
