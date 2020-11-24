@@ -3,45 +3,34 @@ const router = express.Router();
 const {Pie} = require('../models');
 const validateSession = require('../middleware/validateSession');
 
-router.get('/pielove', (req, res) => res.send('I love pie!'));
+// router.get('/pielove', (req, res) => res.send('I love pie!'));
 
-router.get('/anotherpierequest', (req, res) => res.send('Here is more pie'));
+// router.get('/anotherpierequest', (req, res) => res.send('Here is more pie'));
 
-router.get("/getallpies", validateSession, (req, res) => {
-    Pie.findAll()
-        .then(pie => res.status(200).json(pie))
+router.get("/myratings", validateSession, (req, res) => {
+    Rating.findAll()
+        .then(rating => res.status(200).json(rating))
         .catch(err => res.status(500).json({
             error: err
         }))
 })
 
-router.post('/createpie', validateSession, async (req, res) => {
+router.post('/createrating', validateSession, async (req, res) => {
     try {
-        // const pieRequest = {
-        //     //model : postman/view
-        //     flavor: req.body.flavor,
-        //     size: req.body.size,
-        //     hotpie: req.body.hotpie,
-        //     vegan: req.body.vegan,
-        //     baseOfPie: req.body.baseOfPie,
-        //     crust: req.body.crust
-        // }
+        const {rating, movieId, userId, genreId} = req.body;
 
-        //  OR
-        const {flavor, size, hotPie, vegan, baseOfPie, crust} = req.body;
-
-        let newPie = await Pie.create({
-            flavor, size, hotPie, vegan, baseOfPie, crust
+        let newRating = await Rating.create({
+            rating, movieId, userId, genreId
         });
         res.status(200).json({
-            pie: newPie,
-            message: "Pie Created!"
+            rating: newRating,
+            message: "Rating successful!"
         })
 
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            message: "Pie Creation Failed."
+            message: "Rating Failed."
         })
     }
 })
