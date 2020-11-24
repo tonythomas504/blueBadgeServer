@@ -17,10 +17,10 @@ router.get("/myratings", validateSession, (req, res) => {
 
 router.post('/createrating', validateSession, async (req, res) => {
     try {
-        const {rating, movieId, userId, genresId} = req.body;
+        const {rating, movieId, userId} = req.body;
 
         let newRating = await Rating.create({
-            rating, movieId, userId, genresId
+            rating, movieId, userId
         });
         res.status(200).json({
             rating: newRating,
