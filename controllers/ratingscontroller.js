@@ -50,7 +50,7 @@ router.put("/:rating", (req, res) => {
             // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
           res.status(200).json({
             rating: locatedUpdatedrating,
-            message: "Pie updated successful",
+            message: "rating updated successful",
             ratingChanged: ratingUpdated,
           });
         });
