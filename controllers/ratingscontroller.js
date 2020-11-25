@@ -17,10 +17,10 @@ router.get("/myratings", validateSession, (req, res) => {
 
 router.post('/createrating', validateSession, async (req, res) => {
     try {
-        const {rating, movieId, userId, genresId} = req.body;
+        const {rating, movieId, userId} = req.body;
 
         let newRating = await Rating.create({
-            rating, movieId, userId, genresId
+            rating, movieId, userId
         });
         res.status(200).json({
             rating: newRating,
@@ -35,6 +35,7 @@ router.post('/createrating', validateSession, async (req, res) => {
     }
 })
 
+<<<<<<< HEAD
 
 //* PUT then GET
 router.put("/:rating", (req, res) => {
@@ -49,6 +50,15 @@ router.put("/:rating", (req, res) => {
             // on success of retrieved pie, I store the retrieved pie as a parameter called locatedUpdatedPie
         .then((locatedUpdatedrating) => {
             // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
+=======
+//* PUT then GET
+router.put("/:id", (req, res) => {
+    const query = req.params.id;
+    Pie.update(req.body, { where: { id: query } })
+      .then((piesUpdated) => {
+        Pie.findOne({ where: { id: query } })
+        .then((locatedUpdatedPie) => {
+>>>>>>> bbf70d4aa455f17d191227be9503ad3af0b14c40
           res.status(200).json({
             rating: locatedUpdatedrating,
             message: "Pie updated successful",
@@ -56,7 +66,6 @@ router.put("/:rating", (req, res) => {
           });
         });
       })
-      // basic error message
       .catch((err) => res.json(err));
 });
 
@@ -64,8 +73,13 @@ router.delete('/:rating', (req, res) => {
     rating.destroy({
         where: {rating: req.params.id}
     })
+<<<<<<< HEAD
     .then(rating => res.status(200).json(rating))
     .catch(err => res.json({error: err}))   // OR json(err)
+=======
+    .then(pie => res.status(200).json(pie))
+    .catch(err => res.json({error: err}))
+>>>>>>> bbf70d4aa455f17d191227be9503ad3af0b14c40
 })
 
 module.exports = router;
