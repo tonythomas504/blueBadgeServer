@@ -35,36 +35,24 @@ router.post('/createrating', validateSession, async (req, res) => {
     }
 })
 
-router.get('/:flavor', (req, res) => {
-    // models finds one flavor in db compared to flavor in route
-  Pie.findOne({ where: { flavor: req.params.flavor }})
-    .then(pie => res.status(200).json(pie))
-    .catch(err => res.status(500).json({ error: err}))
-})
-
-// router.put('/:id', (req, res) => {
-//   Pie.update(req.body, { where: { id: req.params.id }})
-//     .then(pie => res.status(200).json(pie))
-//     .catch(err => res.status(500).json(err))
-// })
 
 //* PUT then GET
-router.put("/:id", (req, res) => {
+router.put("/:rating", (req, res) => {
     // creating a variable (query) and I am assigning the value of the id that gets passed into the route parameter
-    const query = req.params.id;
+    const query = req.params.rating;
     // updating the pie which whateer data I send through WHERE the id of the pie matches the value of query
-    Pie.update(req.body, { where: { id: query } })
+    rating.update(req.body, { where: { rating: query } })
         // on success, this gives me the number of pies successfully updated (piesUpdated: integer)
-      .then((piesUpdated) => {
+      .then((ratingUpdated) => {
           // on success, go back into my Pie model and locate the single pie based on the id that matches the value of query
-        Pie.findOne({ where: { id: query } })
+        rating.findOne({ where: { rating: query } })
             // on success of retrieved pie, I store the retrieved pie as a parameter called locatedUpdatedPie
-        .then((locatedUpdatedPie) => {
+        .then((locatedUpdatedrating) => {
             // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
           res.status(200).json({
-            pie: locatedUpdatedPie,
+            rating: locatedUpdatedrating,
             message: "Pie updated successful",
-            piesChanged: piesUpdated,
+            ratingChanged: ratingUpdated,
           });
         });
       })
@@ -72,11 +60,11 @@ router.put("/:id", (req, res) => {
       .catch((err) => res.json(err));
 });
 
-router.delete('/:id', (req, res) => {
-    Pie.destroy({
-        where: {id: req.params.id}
+router.delete('/:rating', (req, res) => {
+    rating.destroy({
+        where: {rating: req.params.id}
     })
-    .then(pie => res.status(200).json(pie))
+    .then(rating => res.status(200).json(rating))
     .catch(err => res.json({error: err}))   // OR json(err)
 })
 
