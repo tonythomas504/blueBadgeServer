@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {Pie} = require('../models');
+const {Rating} = require('../models');
 const validateSession = require('../middleware/validateSession');
-
-// router.get('/pielove', (req, res) => res.send('I love pie!'));
-
-// router.get('/anotherpierequest', (req, res) => res.send('Here is more pie'));
 
 router.get("/myratings", validateSession, (req, res) => {
     Rating.findAll()
@@ -17,10 +13,10 @@ router.get("/myratings", validateSession, (req, res) => {
 
 router.post('/createrating', validateSession, async (req, res) => {
     try {
-        const {rating, movieId, userId, genreId} = req.body;
+        const {rating, movieId, userId} = req.body;
 
         let newRating = await Rating.create({
-            rating, movieId, userId, genreId
+            rating, movieId, userId
         });
         res.status(200).json({
             rating: newRating,
@@ -36,32 +32,28 @@ router.post('/createrating', validateSession, async (req, res) => {
 })
 
 
-router.put("/:rating", (req, res) => {
-    // creating a variable (query) and I am assigning the value of the id that gets passed into the route parameter
-    const query = req.params.rating;
-    // updating the pie which whateer data I send through WHERE the id of the pie matches the value of query
-    rating.update(req.body, { where: { rating: query } })
-        // on success, this gives me the number of pies successfully updated (piesUpdated: integer)
+router.put("/:id", (req, res) => {
+    
+    const query = req.params.id;
+    
+    Rating.update(req.body, { where: { id: query } })
       .then((ratingUpdated) => {
-          // on success, go back into my Pie model and locate the single pie based on the id that matches the value of query
-        rating.findOne({ where: { rating: query } })
-            // on success of retrieved pie, I store the retrieved pie as a parameter called locatedUpdatedPie
-        .then((locatedUpdatedrating) => {
-            // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
+        Rating.findOne({ where: { id: query } })
+        .then((locatedUpdatedRating) => {
           res.status(200).json({
-            rating: locatedUpdatedrating,
-            message: "rating updated successful",
+            rating: locatedUpdatedRating,
+            message: "Rating updated successful",
             ratingChanged: ratingUpdated,
           });
         });
       })
-      // basic error message
+      
       .catch((err) => res.json(err));
 });
 
-router.delete('/:rating', (req, res) => {
-    rating.destroy({
-        where: {rating: req.params.id}
+router.delete('/:id', (req, res) => {
+    Rating.destroy({
+        where: {id: req.params.id}
     })
     .then(rating => res.status(200).json(rating))
     .catch(err => res.json({error: err}))   // OR json(err)
