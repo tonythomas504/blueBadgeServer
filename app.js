@@ -8,7 +8,6 @@ const validateSession = require('../blueBadgeServer/middleware/validateSession')
 
 const db = require("./db");
 
-const validateSession = require('../blueBadgeServer/middleware/validateSession');
 
 
 const app = express();
