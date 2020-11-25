@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Pie} = require('../models');
+const {Rating} = require('../models');
 const validateSession = require('../middleware/validateSession');
 
 router.get("/myratings", validateSession, (req, res) => {
@@ -13,7 +13,7 @@ router.get("/myratings", validateSession, (req, res) => {
 
 router.post('/createrating', validateSession, async (req, res) => {
     try {
-        const {rating, movieId, userId, genreId} = req.body;
+        const {rating, movieId, userId} = req.body;
 
         let newRating = await Rating.create({
             rating, movieId, userId
