@@ -3,10 +3,6 @@ const router = express.Router();
 const {Rating} = require('../models');
 const validateSession = require('../middleware/validateSession');
 
-// router.get('/pielove', (req, res) => res.send('I love pie!'));
-
-// router.get('/anotherpierequest', (req, res) => res.send('Here is more pie'));
-
 router.get("/myratings", validateSession, (req, res) => {
     Rating.findAll()
         .then(rating => res.status(200).json(rating))
