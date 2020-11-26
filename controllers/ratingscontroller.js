@@ -3,10 +3,6 @@ const router = express.Router();
 const {Rating} = require('../models');
 const validateSession = require('../middleware/validateSession');
 
-// router.get('/pielove', (req, res) => res.send('I love pie!'));
-
-// router.get('/anotherpierequest', (req, res) => res.send('Here is more pie'));
-
 router.get("/myratings", validateSession, (req, res) => {
     Rating.findAll()
         .then(rating => res.status(200).json(rating))
@@ -36,6 +32,7 @@ router.post('/createrating', validateSession, async (req, res) => {
 })
 
 
+
 router.put("/:rating", (req, res) => {
     // creating a variable (query) and I am assigning the value of the id that gets passed into the route parameter
     const query = req.params.rating;
@@ -48,20 +45,32 @@ router.put("/:rating", (req, res) => {
             // on success of retrieved pie, I store the retrieved pie as a parameter called locatedUpdatedPie
         .then((locatedUpdatedrating) => {
             // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
+
+router.put("/:id", (req, res) => {
+    
+    const query = req.params.id;
+    
+    Rating.update(req.body, { where: { id: query } })
+      .then((ratingUpdated) => {
+        Rating.findOne({ where: { id: query } })
+        .then((locatedUpdatedRating) => {
+
           res.status(200).json({
-            rating: locatedUpdatedrating,
-            message: "Pie updated successful",
+            rating: locatedUpdatedRating,
+            message: "Rating updated successful",
             ratingChanged: ratingUpdated,
           });
         });
       })
+
       // basic error message
+
       .catch((err) => res.json(err));
 });
 
-router.delete('/:rating', (req, res) => {
-    rating.destroy({
-        where: {rating: req.params.id}
+router.delete('/:id', (req, res) => {
+    Rating.destroy({
+        where: {id: req.params.id}
     })
     .then(rating => res.status(200).json(rating))
     .catch(err => res.json({error: err}))   // OR json(err)
