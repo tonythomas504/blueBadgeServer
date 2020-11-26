@@ -2,9 +2,13 @@ require('dotenv').config();
 
 const express = require("express");
 
+
 const router = express.Router();
 const validateSession = require('../blueBadgeServer/middleware/validateSession');
+
 const db = require("./db");
+
+
 
 const app = express();
 app.use(require('./middleware/headers'));

@@ -26,11 +26,25 @@ router.post('/createrating', validateSession, async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            message: "Rating Failed."
+            error: error
         })
     }
 })
 
+
+
+router.put("/:rating", (req, res) => {
+    // creating a variable (query) and I am assigning the value of the id that gets passed into the route parameter
+    const query = req.params.rating;
+    // updating the pie which whateer data I send through WHERE the id of the pie matches the value of query
+    rating.update(req.body, { where: { rating: query } })
+        // on success, this gives me the number of pies successfully updated (piesUpdated: integer)
+      .then((ratingUpdated) => {
+          // on success, go back into my Pie model and locate the single pie based on the id that matches the value of query
+        rating.findOne({ where: { rating: query } })
+            // on success of retrieved pie, I store the retrieved pie as a parameter called locatedUpdatedPie
+        .then((locatedUpdatedrating) => {
+            // I created status code of 200 (SUCCESS) and add an object with desired data (locatedpie, success message, # of pies updated)
 
 router.put("/:id", (req, res) => {
     
@@ -40,6 +54,7 @@ router.put("/:id", (req, res) => {
       .then((ratingUpdated) => {
         Rating.findOne({ where: { id: query } })
         .then((locatedUpdatedRating) => {
+
           res.status(200).json({
             rating: locatedUpdatedRating,
             message: "Rating updated successful",
@@ -47,7 +62,9 @@ router.put("/:id", (req, res) => {
           });
         });
       })
-      
+
+      // basic error message
+
       .catch((err) => res.json(err));
 });
 
