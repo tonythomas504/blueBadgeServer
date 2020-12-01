@@ -11,13 +11,13 @@ const Rating = db.define('rating', {
           }
     },
     movieId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     userId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
-    }
+}
 })
 
 module.exports = Rating
