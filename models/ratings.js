@@ -15,8 +15,7 @@ const Rating = db.define('rating', {
         allowNull: false
     },
     userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.INTEGER
 }})
 
 module.exports = Rating
