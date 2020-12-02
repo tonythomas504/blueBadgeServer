@@ -5,7 +5,7 @@ const {
 } = require('../models');
 const validateSession = require('../middleware/validateSession');
 
-router.get("/myratings", validateSession, (req, res) => {
+router.get("/myratings",  (req, res) => {
     Rating.findAll()
         .then(rating => res.status(200).json(rating))
         .catch(err => res.status(500).json({
@@ -81,7 +81,7 @@ router.post('/createrating', validateSession, (req, res) => {
                     .catch((err) => res.json(err));
             });
 
-            router.delete('/:id', (req, res) => {
+            router.delete('/myratings/:id', (req, res) => {
                 Rating.destroy({
                         where: {
                             id: req.params.id
