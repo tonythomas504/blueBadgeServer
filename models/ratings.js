@@ -11,7 +11,7 @@ const Rating = db.define('rating', {
           }
     },
     movieId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false
     },
     userId: {
