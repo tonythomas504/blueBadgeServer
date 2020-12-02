@@ -54,7 +54,8 @@ router.post('/createrating', validateSession, (req, res) => {
                 ))
 
             })
-            router.put("/:id", (req, res) => {
+            
+            router.put("/myratings/:id", (req, res) => {
 
                 const query = req.params.id;
 
